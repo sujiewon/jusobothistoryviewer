@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>발화로그 결과코드 집계</title>
+    <link rel="stylesheet" th:href="@{/css/office.css}">
+</head>
+<body>
+<header class="topbar">
+    <div class="topbar-inner">
+        <span class="brand-mark">집계</span>
+        <div>
+            <p class="brand-kicker">내부 업무 화면</p>
+            <p class="brand-name">발화로그 결과코드 집계</p>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+    <section class="panel">
+        <h1>조회 조건</h1>
+        <p class="help">
+            로그시간 구간을 선택하면 그 사이에 있는 결과코드별 건수를 보여 줍니다.
+            종료일 당일 전체가 포함됩니다.
+            월별 테이블 <code th:text="${tablePrefix} + 'YYYYMM'">lgsttlogtable_YYYYMM</code> 을 사용하며,
+            한 번에 최대 <span th:text="${maxMonths}">12</span>개월까지 조회할 수 있습니다.
+        </p>
+        <form id="search-form" th:attr="data-max-months=${maxMonths}">
+            <div class="fields">
+                <label class="field">
+                    <span>시작일</span>
+                    <input id="from-date" name="from" type="date" required>
+                </label>
+                <label class="field">
+                    <span>종료일</span>
+                    <input id="to-date" name="to" type="date" required>
+                </label>
+                <button id="search-button" type="submit">조회</button>
+            </div>
+        </form>
+        <p id="form-error" class="message error" hidden></p>
+    </section>
+
+    <section id="result-panel" class="panel" hidden aria-live="polite">
+        <h2>집계 결과</h2>
+        <dl id="result-summary" class="summary"></dl>
+        <p id="missing-note" class="message notice" hidden></p>
+        <p id="empty-note" class="message notice" hidden>조건에 해당하는 로그가 없습니다.</p>
+        <div class="table-wrap">
+            <table id="result-table">
+                <thead>
+                <tr>
+                    <th scope="col">결과코드</th>
+                    <th scope="col" class="num">건수</th>
+                    <th scope="col" class="num">비율</th>
+                </tr>
+                </thead>
+                <tbody id="result-body"></tbody>
+                <tfoot>
+                <tr>
+                    <th scope="row">합계</th>
+                    <td id="total-count" class="num">0</td>
+                    <td class="num">100%</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </section>
+</main>
+
+<script th:src="@{/js/search.js}"></script>
+</body>
+</html>
