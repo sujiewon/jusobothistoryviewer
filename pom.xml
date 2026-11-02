@@ -14,15 +14,14 @@
     <groupId>com.sujiewon</groupId>
     <artifactId>history-viewer</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>history-viewer</name>
     <description>발화로그 결과코드 집계</description>
 
     <!--
       Java 17, Spring Boot 3.5. 최신 메이저(Boot 4)는 쓰지 않는다.
       빌드: mvn clean package
-      실행: java -jar target/history-viewer.war
-      같은 WAR를 외부 Tomcat 10 이상에 배포해도 된다.
+      실행: java -jar target/history-viewer.jar
       DB 접속 정보는 src/main/resources/application.yml 에서 수정한다.
     -->
 
@@ -48,11 +47,6 @@
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
