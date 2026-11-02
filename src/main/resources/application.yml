@@ -1,0 +1,36 @@
+# 발화로그 결과코드 집계
+#
+# 빌드: mvn clean package
+# 실행: java -jar target/history-viewer.war
+# 외부 Tomcat 10 이상에도 같은 WAR를 올리면 된다.
+#
+# 조회 기준 컬럼은 로그시간이다.
+# 2026-10-01 ~ 2026-10-05 를 고르면 10월 1일 00:00:00 부터 10월 6일 00:00:00 직전까지 집계한다.
+# 기간에 걸친 달마다 lgsttlogtable_YYYYMM 테이블을 찾아 결과코드 건수를 합친다.
+# 예: 2026년 10월 -> lgsttlogtable_202610
+# 시각은 한국 시간(UTC+9)으로 해석한다.
+
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: history-viewer
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3306/your_database
+    username: your_user
+    password: your_password
+    hikari:
+      connection-init-sql: "SET time_zone = '+09:00'"
+      initialization-fail-timeout: -1
+      connection-timeout: 5000
+
+app:
+  table-prefix: lgsttlogtable_
+  max-months: 12
